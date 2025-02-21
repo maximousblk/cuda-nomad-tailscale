@@ -48,18 +48,17 @@ RUN sudo cp /tmp/nomad-device-nvidia /opt/nomad/plugins/nomad-device-nvidia
 RUN sudo chmod +x /opt/nomad/plugins/nomad-device-nvidia
 
 # Install Tailscale
-RUN mkdir -p /tailscale
-RUN chown -R nomad:nomad /tailscale
-RUN chmod -R 777 /tailscale
-
-RUN wget https://pkgs.tailscale.com/stable/tailscale_${TAILSCALE_VERSION}_amd64.tgz
-RUN tar xzf tailscale_${TAILSCALE_VERSION}_amd64.tgz --strip-components=1
-RUN mkdir -p /var/run/tailscale /var/cache/tailscale /var/lib/tailscale
+RUN mkdir -p /etc/tailscale.d /var/run/tailscale /var/cache/tailscale /var/lib/tailscale
 RUN chown -R nomad:nomad /var/run/tailscale /var/cache/tailscale /var/lib/tailscale
 RUN chmod -R 777 /var/run/tailscale /var/cache/tailscale /var/lib/tailscale
 
-COPY tsaddr.sh /tailscale/tsaddr.sh
-RUN chmod +x /tailscale/tsaddr.sh
+WORKDIR /etc/tailscale.d
+
+RUN wget https://pkgs.tailscale.com/stable/tailscale_${TAILSCALE_VERSION}_amd64.tgz
+RUN tar xzf tailscale_${TAILSCALE_VERSION}_amd64.tgz --strip-components=1
+
+COPY tsaddr.sh /etc/tailscale.d/tsaddr.sh
+RUN chmod +x /etc/tailscale.d/tsaddr.sh
 
 USER nomad
 WORKDIR /etc/nomad.d

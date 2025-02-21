@@ -1,7 +1,7 @@
 client {
   enabled = true
   server_join {
-    retry_join     = ["exec=/tailscale/tsaddr.sh"]
+    retry_join     = ["exec=/etc/tailscale.d/tsaddr.sh"]
     retry_interval = "5s"
   }
 }
