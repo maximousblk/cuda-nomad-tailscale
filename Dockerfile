@@ -34,7 +34,7 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/h
 RUN sudo apt update
 RUN sudo apt install -y nomad
 
-RUN sudo mkdir -p /opt/nomad /etc/nomad.d
+RUN sudo mkdir -p /opt/nomad/plugins /etc/nomad.d
 RUN sudo chown -R nomad:nomad /opt/nomad /etc/nomad.d
 RUN sudo chmod -R 777 /opt/nomad /etc/nomad.d
 
