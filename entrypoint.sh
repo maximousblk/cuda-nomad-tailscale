@@ -11,11 +11,12 @@ echo "Starting tailscale daemon..."
 
 # Wait until Tailscale is up
 echo "Waiting for tailscale to be up..."
-until ./tailscale up --authkey=${TAILSCALE_AUTHKEY} --hostname=${TAILSCALE_HOSTNAME} --advertise-exit-node ${TAILSCALE_ADDITIONAL_ARGS}; do
+# sudo  tailscale up --login-server=http://34.71.227.183:8080 --authkey 20d06be7f3412f8d9906c971304d9b1b9c168bc183fa0f5e --force-reauth
+until ./tailscale up --login-server="${TAILSCALE_LOGIN_SERVER}" --authkey="${TAILSCALE_AUTHKEY}" --hostname="${TAILSCALE_HOSTNAME}" --advertise-exit-node "${TAILSCALE_ADDITIONAL_ARGS}"; do
   sleep 0.1
 done
 
-nomad agent -client -config /etc/nomad/agent.config.hcl &
+nomad agent -config /etc/nomad.d &
 
 # Execute the command specified by CMD
 exec "$@"
